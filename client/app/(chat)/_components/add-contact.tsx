@@ -16,9 +16,9 @@ const AddContact: FC<Props> = ({ contactForm, onCreateContact }) => {
   return (
     <div className='h-screen w-full flex z-40 realtive'>
       <div className='flex justify-center items-center z-50 w-full'>
-        <div className='flex flex-col items-center gap-4'>
+        <div className='flex flex-col items-center gap-4 pl-5 pr-5'>
           <FaTelegram size={120} className='dark:text-blue-400 text-blue-500' />
-          <h1 className='text-3xl font-semibold'>Add contacts to start chatting</h1>
+          <h1 className='text-2xl font-semibold text-center'>Suhbatlashish uchun kontakt qo'shing</h1>
           <Form {...contactForm}>
             <form onSubmit={contactForm.handleSubmit(onCreateContact)} className="space-y-2 w-full">
               <FormField

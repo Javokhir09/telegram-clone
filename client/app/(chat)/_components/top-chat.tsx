@@ -1,15 +1,22 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { useCurrentContact } from '@/hooks/use-current'
-import { Settings2 } from 'lucide-react'
-import React from 'react'
+import { ArrowLeft, Settings2 } from 'lucide-react'
+import React, { FC } from 'react'
 
-const TopChat = () => {
+interface Props {
+  children?: React.ReactNode
+}
+
+const TopChat: FC<Props> = ({children}) => {
   const {currentContact} = useCurrentContact()
 
   return (
     <div className='w-full flex items-center justify-between sticky top-0 z-50 h-[8vh] p-2 border-b bg-background'>
       <div className='flex items-center'>
+        {children}
         <Avatar className="z-40">
           <AvatarImage src={currentContact?.avatar} alt={currentContact?.email} className="object-cover"/>
           <AvatarFallback className="uppercase"> {currentContact?.email[0]} </AvatarFallback>
@@ -32,9 +39,51 @@ const TopChat = () => {
           </div> */}
         </div>
       </div>
-      <Button size={'icon'} variant={'secondary'}>
-        <Settings2 />
-      </Button>
+
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button size={'icon'} variant={'secondary'}>
+            <Settings2 />
+          </Button>
+        </SheetTrigger>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle />
+          </SheetHeader>
+          <div className='mx-auto w-1/2 h-auto relative'>
+            <Avatar className='w-full h-auto'>
+              <AvatarImage src={currentContact?.avatar} alt={currentContact?.email} className='object-cover' />
+              <AvatarFallback className='text-6xl uppercase'>{currentContact?.email[0]}</AvatarFallback>
+            </Avatar>
+          </div>
+
+          <Separator className='mt-5' />
+
+          <h1 className='text-center text-xl mt-2'>{currentContact?.email}</h1>
+
+          <div className='flex flex-col space-y-1'>
+            {currentContact?.firstname && (
+              <div className='flex items-center gap-1 mt-4'>
+                <p>First Name: </p>
+                <p className='text-muted-foreground'>{currentContact?.firstname}</p>
+              </div>
+            )}
+            {currentContact?.lastname && (
+              <div className='flex items-center gap-1 mt-4'>
+                <p>Last Name: </p>
+                <p className='text-muted-foreground'>{currentContact?.lastname}</p>
+              </div>
+            )}
+            {currentContact?.bio && (
+              <div className='flex items-center gap-1 mt-4'>
+                <p>Bio: </p>
+                <p className='text-muted-foreground'>{currentContact?.bio}</p>
+              </div>
+            )}
+          </div>
+
+        </SheetContent>
+      </Sheet>
     </div>
   )
 }

@@ -11,9 +11,10 @@ import { useCurrentContact } from '@/hooks/use-current'
 
 interface Props {
   contacts: IUser[]
+  setClose: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const ContactList: FC<Props> = ({ contacts }) => {
+const ContactList: FC<Props> = ({ contacts, setClose }) => {
   const router = useRouter()
   const {currentContact, setCurrentContact} = useCurrentContact()
 
@@ -23,12 +24,13 @@ const ContactList: FC<Props> = ({ contacts }) => {
       console.log('chatting with', contact.email)
       setCurrentContact(contact)
       router.push(`/?chat=${contact._id}`)
+      setClose(true)
     }
 
     return (
       <div
         className={cn(
-          "flex justify-between items-center cursor-pointer hover:bg-secondary/50 p-2",
+          "flex justify-between items-center cursor-pointer hover:bg-secondary/50 p-2 w-auto",
           currentContact?._id === contact._id && "bg-secondary/50"
         )}
         onClick={onChat}
@@ -66,11 +68,6 @@ const ContactList: FC<Props> = ({ contacts }) => {
       </div>
 
       {/* Contacts */}
-      {contacts.length === 0 && (
-        <div className='w-full h-[95vh] flex justify-center items-center text-center text-muted-foreground'>
-          <p>You don't have any contacts😥</p>
-        </div>
-      )}
 
       {contacts.map(contact => (
         <div key={contact._id}>{renderContacts(contact)}</div>
